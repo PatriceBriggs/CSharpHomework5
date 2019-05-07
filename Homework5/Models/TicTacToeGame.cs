@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Homework5.Models
 {
@@ -13,11 +14,11 @@ namespace Homework5.Models
         // Player X Turn
         // Player O Turn
         // Player X Wins
-        // Player O Won
+        // Player O Wins
         // CAT Game
 
         public bool PlayerXTurn { get; set; }
-        public bool PlayerOTurn { get; set; }
+        public bool PlayerOTurn { get; set; } // don't really need this
 
         //Value is either X or O
         public string Square00 { get; set; }
@@ -36,7 +37,7 @@ namespace Homework5.Models
         // Method that checks if one of 8 winning combinations on each button click
         // if no match and GameOver - then CAT game
         // returns gameStatus
-        public string IsAWinner(string gameStatus, int moveNumber)
+        public string CheckForWinner(string gameStatus, int moveNumber)
         {
             bool isAWinner = false;
             if(!String.IsNullOrEmpty(Square00) || !String.IsNullOrEmpty(Square01) || !String.IsNullOrEmpty(Square02))
@@ -70,17 +71,17 @@ namespace Homework5.Models
             else if (isAWinner && gameStatus == "Player O Turn")
                 return "Player O Wins";
 
-            // No winner yet
-            if (!isAWinner && gameStatus == "Player X Turn" && !GameOver(moveNumber))
+            // No winner yet - check if game is over
+            if (!isAWinner && gameStatus == "Player X Turn" && !CheckForGameOver(moveNumber))
                 return "Player O Turn";
-            else if (!isAWinner && gameStatus == "Player O Turn" && !GameOver(moveNumber))
+            else if (!isAWinner && gameStatus == "Player O Turn" && !CheckForGameOver(moveNumber))
                 return "Player X Turn";
 
             return "CAT Game";
         }
 
         //check if game is over - MoveNumber = 9
-        public bool GameOver(int moveNumber)
+        public bool CheckForGameOver(int moveNumber)
         {
             return (moveNumber >= 9);
         }

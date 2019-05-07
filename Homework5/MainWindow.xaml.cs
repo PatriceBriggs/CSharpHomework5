@@ -2,17 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Homework5
 {
@@ -24,41 +15,60 @@ namespace Homework5
         TicTacToeGame ttt = new TicTacToeGame();
         public MainWindow()
         {
-
             InitializeComponent();
             uxTurn.Text = "Player X Turn";
             ttt.GameStatus = "Player X Turn";
             ttt.PlayerXTurn = true;
             ttt.PlayerOTurn = false;
-            ttt.MoveNumber = 1;           
+            ttt.MoveNumber = 1;
 
+            SetExitGame();
+
+        }
+
+        private void SetExitGame()
+        {
+            MenuItem mi = new MenuItem();
+            mi.Click += new RoutedEventHandler(ExitGame);
+        }
+
+        private void ExitGame(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string thisTag = ((Button)sender).Tag.ToString();
 
-            SetSquareValue(thisTag, ttt.PlayerXTurn);          
+            //string thisTag = ((Button)sender).Tag.ToString();
+            string thisTag = (sender as Button).Tag.ToString();
+            SetSquareValue(thisTag, ttt.PlayerXTurn);
+            (sender as Button).IsEnabled = false;
 
             if (ttt.PlayerXTurn)
             { 
                 (sender as Button).Content = "X";
                 ttt.PlayerXTurn = false;
                 ttt.PlayerOTurn = true;
-                ttt.GameStatus = ttt.IsAWinner(ttt.GameStatus,ttt.MoveNumber);
+                ttt.GameStatus = ttt.CheckForWinner(ttt.GameStatus,ttt.MoveNumber);
                 uxTurn.Text = ttt.GameStatus;
             }
             else { 
                 (sender as Button).Content = "O";
                 ttt.PlayerXTurn = true;
                 ttt.PlayerOTurn = false;
-                ttt.GameStatus = ttt.IsAWinner(ttt.GameStatus, ttt.MoveNumber);
+                ttt.GameStatus = ttt.CheckForWinner(ttt.GameStatus, ttt.MoveNumber);
                 uxTurn.Text = ttt.GameStatus;
             }
 
-            ttt.MoveNumber = ttt.MoveNumber + 1;
-            (sender as Button).IsEnabled = false;       
-           
+            if(ttt.GameStatus.Contains("Wins"))
+            {               
+                DisableAllTiles();
+                return;
+            }
+
+            //No winner yet - increment movenumber
+            ttt.MoveNumber = ttt.MoveNumber + 1;         
             return;
            
         }
@@ -146,7 +156,6 @@ namespace Homework5
         private void uxNewGame_Click(object sender, RoutedEventArgs e)
         {
 
-            // Enable all Squares
             uxTurn.Text = "Player X Turn";
             ttt.GameStatus = "Player X Turn";
             ttt.PlayerXTurn = true;
@@ -165,9 +174,34 @@ namespace Homework5
             ttt.Square22 = "";
 
             //Clear board
-            //string thisTag = ((Button)sender).Tag.ToString();
-            InitializeComponent();
+            ClearBoard();
+
             return;
+        }
+
+        private void ClearBoard()
+        {
+            UIElementCollection element = uxGrid.Children;
+            List<FrameworkElement> elements = element.Cast<FrameworkElement>().ToList();
+            List<Button> buttons = elements.OfType<Button>().ToList();
+
+            foreach (Button b in buttons)
+            {
+                b.Content = "";
+                b.IsEnabled = true;
+            }
+        }
+
+        public void DisableAllTiles()
+        {
+            UIElementCollection element = uxGrid.Children;
+            List<FrameworkElement> elements = element.Cast<FrameworkElement>().ToList();
+            List<Button> buttons = elements.OfType<Button>().ToList();
+
+            foreach (Button b in buttons)
+            {
+                b.IsEnabled = false;
+            }
         }
     }
 }
