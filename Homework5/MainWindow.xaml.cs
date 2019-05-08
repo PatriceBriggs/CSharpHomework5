@@ -21,21 +21,7 @@ namespace Homework5
             ttt.PlayerXTurn = true;
             ttt.PlayerOTurn = false;
             ttt.MoveNumber = 1;
-
-            SetExitGame();
-
-        }
-
-        private void SetExitGame()
-        {
-            MenuItem mi = new MenuItem();
-            mi.Click += new RoutedEventHandler(ExitGame);
-        }
-
-        private void ExitGame(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+         }  
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -155,7 +141,6 @@ namespace Homework5
 
         private void uxNewGame_Click(object sender, RoutedEventArgs e)
         {
-
             uxTurn.Text = "Player X Turn";
             ttt.GameStatus = "Player X Turn";
             ttt.PlayerXTurn = true;
@@ -163,7 +148,7 @@ namespace Homework5
             ttt.MoveNumber = 1;
 
             // Set all Squares in model to null
-            ttt.Square00 = "";         
+            ttt.Square00 = "";
             ttt.Square01 = "";
             ttt.Square02 = "";
             ttt.Square10 = "";
@@ -174,7 +159,7 @@ namespace Homework5
             ttt.Square22 = "";
 
             //Clear board
-            ClearBoard();
+            //ClearBoard();
 
             return;
         }
@@ -202,6 +187,11 @@ namespace Homework5
             {
                 b.IsEnabled = false;
             }
+        }
+
+        private void uxExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
