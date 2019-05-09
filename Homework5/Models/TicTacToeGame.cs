@@ -9,7 +9,7 @@ namespace Homework5.Models
 {
     public class TicTacToeGame
     {
-        public string GameStatus { get; set; }
+        public string GameStatus { get; set; } //Could set up an enum here
         // Game Status values
         // Player X Turn
         // Player O Turn
@@ -31,8 +31,10 @@ namespace Homework5.Models
         public string Square21 { get; set; }
         public string Square22 { get; set; }
 
-        // increment each time tile clicked - max value is 9
+        // increment each time tile clicked
         public int MoveNumber { get; set; }
+
+        public int MaxNumberMoves { get { return 9; } }
 
         // Method that checks if one of 8 winning combinations on each button click
         // if no match and GameOver - then CAT game
@@ -40,9 +42,9 @@ namespace Homework5.Models
         public string CheckForWinner(string gameStatus, int moveNumber)
         {
             bool isAWinner = false;
-            if(!String.IsNullOrEmpty(Square00) || !String.IsNullOrEmpty(Square01) || !String.IsNullOrEmpty(Square02))
-                 if ((Square00 == Square01) && (Square01 == Square02))
-                        isAWinner = true;
+            if (!String.IsNullOrEmpty(Square00) || !String.IsNullOrEmpty(Square01) || !String.IsNullOrEmpty(Square02))
+                if ((Square00 == Square01) && (Square01 == Square02))
+                    isAWinner = true;
             if (!String.IsNullOrEmpty(Square10) || !String.IsNullOrEmpty(Square11) || !String.IsNullOrEmpty(Square12))
                 if ((Square10 == Square11) && (Square11 == Square12))
                     isAWinner = true;
@@ -77,13 +79,14 @@ namespace Homework5.Models
             else if (!isAWinner && gameStatus == "Player O Turn" && !CheckForGameOver(moveNumber))
                 return "Player X Turn";
 
+            // No winner - no more moves
             return "CAT Game";
         }
 
         //check if game is over - MoveNumber = 9
         public bool CheckForGameOver(int moveNumber)
         {
-            return (moveNumber >= 9);
+            return (moveNumber >= MaxNumberMoves);
         }
 
     }

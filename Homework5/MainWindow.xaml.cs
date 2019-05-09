@@ -16,8 +16,9 @@ namespace Homework5
         public MainWindow()
         {
             InitializeComponent();
-            uxTurn.Text = "Player X Turn";
+            
             ttt.GameStatus = "Player X Turn";
+            uxTurn.Text = "Player X Turn";
             ttt.PlayerXTurn = true;
             ttt.PlayerOTurn = false;
             ttt.MoveNumber = 1;
@@ -159,7 +160,7 @@ namespace Homework5
             ttt.Square22 = "";
 
             //Clear board
-            //ClearBoard();
+            ClearBoard();
 
             return;
         }
